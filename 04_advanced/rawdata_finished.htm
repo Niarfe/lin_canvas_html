@@ -1,54 +1,59 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Accessing Raw Pixel Data</title>
-		<style type="text/css">
-			#Canvas1 {
-				border: dotted 1px black;
-			}
-		</style>
-		<link rel="stylesheet" href="../style.css" />
-		<script type="text/javascript">
-			window.addEventListener("load", function () {
-				var theCanvas = document.getElementById('Canvas1');
-				if (theCanvas && theCanvas.getContext) {
-					var ctx = theCanvas.getContext("2d");
-					if (ctx) {
-						// draw an image directly onto the canvas at the top left
-						var srcImg = document.getElementById("img1");
-						ctx.drawImage(srcImg, 0, 0, ctx.canvas.width, ctx.canvas.height);
+  <head>
+    <title>Accessing Raw Pixel Data</title>
+    <!-- <link rel="icon" href="data:;base64,iVBORw0KGgo="> -->
+    <link href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAuKSkpfq6urqS3t7ekjo6OgR4eHjMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAACqWFhY/v////7////+/////v////7z8/P+mpqasAQEBBYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABMAAADUAAAA///////////+/////v////7////+/////v////65ubnYAgICFQAAAAAAAAAAAAAAAAAAAAAAAACpAAAA/0tLS////////////7Ozs/+Xl5f+/////v////7////+/////qCgoK4AAAAAAAAAAAAAAAAAAAArAAAA9gAAAP4nJyf/////////////////+fn5//////7////+/////v////7////9ISEhLwAAAAAAAAAAERERcSQkJOEGBgbwAAAA/P///////////////////////////////v////7////+/////qSkpH4AAAAAAAAAADMzM4lQUFDLMjIy2hMTE+kGBgb37e3t/v/////////////////////////+/////v////7Z2dmjAAAAAAAAAABJSUmBe3t7tl1dXcU/Pz/UISEh4gICAvEAAAD8AAAA/1tbW//////////////////////+7u7uowAAAAAAAAAAQkJCYqampqCJiYmvampqvkxMTM0uLi7cDw8P6gAAAPgAAAD/GBgY/////////////////9bW1nwAAAAAAAAAAAICAiuxsbGUtLS0mZaWlqh4eHi3WlpaxmhoaNlMTEznAAAA8gAAAP3///////////////41NTUrAAAAAAAAAAAAAAAAYWFhdt7e3oPBwcGTo6OjooWFhbD////o////8iwsLN0ODg7s7e3t/f////////+pAAAAAAAAAAAAAAAAAAAAAAAAABWKiop/6+vrfM7OzoyxsbGbw8PDsKmpqb9YWFjHMjIy2v////7////UDg4OEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFWxsbG/V1dV/3Nzchb6+vpShoaGjeXl5tqysrO3///+qFBQUEwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwcHLVRUVFlqampvTExMfBAQEHU8PDwuAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//8AAPAPAADgBwAAwAMAAIABAACAAQAAgAEAAIABAACAAQAAgAEAAIABAACAAQAAwAMAAOAHAADwDwAA//8AAA==" rel="icon" type="image/x-icon">
+    <style type="text/css">
+      body {
+        background: gray;
+      }
+      #Canvas1 {
+        border: dotted 1px black;
+      }
+    </style>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="text/javascript">
+      window.addEventListener("load", function () {
+        var theCanvas = document.getElementById('Canvas1');
+        if (theCanvas && theCanvas.getContext) {
+          var ctx = theCanvas.getContext("2d");
+          if (ctx) {
+            // draw an image directly onto the canvas at the top left
+            var srcImg = document.getElementById("img1");
+            ctx.drawImage(srcImg, 0, 0, ctx.canvas.width, ctx.canvas.height);
 
-						// get the image data and convert every 15th row to
-						// a 5-row strip of inverted pixels
-						var curRow = 0, maxRow = ctx.canvas.height - 1;
-						var imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
-						var pixels = imgData.data;
+            // get the image data and convert every 15th row to
+            // a 5-row strip of inverted pixels
+            var curRow = 0, maxRow = ctx.canvas.height - 1;
+            var imgData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+            var pixels = imgData.data;
 
-						while (curRow < maxRow) {
-							var thisRowBytes = curRow * ctx.canvas.width * 4;
-							for (var j = 0; j < ctx.canvas.width * 4; j += 4) {
-								pixels[thisRowBytes + j] = 255 - pixels[thisRowBytes + j]; // red
-								pixels[thisRowBytes + j + 1] = 255 - pixels[thisRowBytes + j + 1]; // green
-								pixels[thisRowBytes + j + 2] = 255 - pixels[thisRowBytes + j + 2]; // blue
-							}
-							curRow++;
-						}
-						// put the modified data back into the canvas
-						ctx.putImageData(imgData, 0, 0, 100, 100, ctx.canvas.width - 200, ctx.canvas.height - 200);
-					}
-				}
-			});
-		</script>
-	</head>
-	<body>
-		<h1>Accessing Raw Pixel Data</h1>
-		<div id='content'>
-			<p>A very powerful feature of the canvas API is the ability to directly access the individual pixels of the image. This
-				demo shows how to retrieve the pixel data from a canvas, manipulate it, and put it back into the canvas.</p>
-			<canvas id="Canvas1" width="715" height="315">Your browser does not support canvas.</canvas>
+            while (curRow < maxRow) {
+              var thisRowBytes = curRow * ctx.canvas.width * 4;
+              for (var j = 0; j < ctx.canvas.width * 4; j += 4) {
+                pixels[thisRowBytes + j    ] = pixels[thisRowBytes + j + 0] * 0.5; // red
+                pixels[thisRowBytes + j + 1] = pixels[thisRowBytes + j + 1] * 0.5; // green
+                pixels[thisRowBytes + j + 2] = pixels[thisRowBytes + j + 2]; // blue
+              }
+              curRow++;
+            }
+            // put the modified data back into the canvas
+            ctx.putImageData(imgData, 0, 0, 100, 100, ctx.canvas.width - 200, ctx.canvas.height - 200);
+          }
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Accessing Raw Pixel Data</h1>
+    <div id='content'>
+      <p>A very powerful feature of the canvas API is the ability to directly access the individual pixels of the image. This
+        demo shows how to retrieve the pixel data from a canvas, manipulate it, and put it back into the canvas.</p>
+      <canvas id="Canvas1" width="715" height="315">Your browser does not support canvas.</canvas>
 
-			<!-- source images used in this example -->
-			<img id="img1" src="images/tulips.jpg" width="715" height="315">
-		</div>
-	</body>
+      <!-- source images used in this example -->
+      <img id="img1" src="./images/tulips.jpg" width="715" height="315">
+    </div>
+  </body>
 </html>
