@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- adapting hexagon graph from mazes for programmers -->
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="./hexagon.js"></script>
+        <style>
+            body {
+                background-color: gray;
+            }
+            .canvas {
+                background-color: gray;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="c191116">
+            <canvas id="MyCanvas" class="canvas" width="1800" height="800"></canvas>
+            <br>
+            <button @click="render()">Start</button>
+            <button @click="pause()">Pause</button>
+        </div>
+        <!-- document.getElementById("MyCanvas"); -->
+        <script src="./vue_guts.js"></script>
+        <script type="text/javascript">
+           window.addEventListener("load", function () {
+             var theCanvas = document.getElementById('MyCanvas');
+             if (theCanvas && theCanvas.getContext) {
+               // change the width and height of the canvas
+               theCanvas.width = 600;
+               theCanvas.height = 400;
+    
+               // fill the canvas with a light blue background
+               var ctx = theCanvas.getContext("2d");
+               if (ctx) {
+                 ctx.fillStyle = "lightBlue";
+                 ctx.strokeStyle = "blue";
+                 ctx.lineWidth = 5;
+                 ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                 ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+               }
+             }
+             ctx.lineWidth = 1;
+             //drawHexSide(ctx, 100, 100, 50, "N");
+             //drawHexSide(ctx, 100, 100, 50, "S");
+             //drawHexSide(ctx, 100, 100, 50, "NW");
+             //drawHexSide(ctx, 100, 100, 50, "SW");
+             //drawHexSide(ctx, 100, 100, 50, "NE");
+             //drawHexSide(ctx, 100, 100, 50, "SE");
+
+             ctx.strokeStyle = "green";
+             var size = 25 
+             for (var idy = 0; idy < 4; idy += 1) {
+               initX = 100;
+               initY = 100 + idy*Math.sqrt(3)*size;
+               initY2 = initY + Math.sqrt(3)/2*size;
+               initX2 = initX + 1.5*size;
+               for (var idx = 0; idx < 10; idx += 1) {
+                  ctx.strokeStyle = "green";
+                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "NW");
+                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "N");
+                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "NE");
+
+                  ctx.strokeStyle = "green";
+                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NW");
+                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "N");
+                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NE");
+               }
+             }              
+           });
+               
+        </script>
+
+    </body>
+</html>
