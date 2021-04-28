@@ -74,4 +74,25 @@ function drawHexSide(ctx, Xcenter, Ycenter, size, side) {
   ctx.fill();
 }
 
+function hex_grid(ctx, initX, initY, size, lineWidth, XCanvasWidth, YCanvasWidth) {
+  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = "blue";
 
+  var Ylimit = XCanvasWidth/(2*size - 2) + 2 
+  var Xlimit = YCanvasWidth/(3*size) + 4
+
+  for (var idy = 0; idy < Ylimit; idy += 1) {
+    initY = idy*Math.sqrt(3)*size;
+    initY2 = initY + Math.sqrt(3)/2*size;
+    initX2 = initX + 1.5*size;
+    for (var idx = 0; idx < Xlimit; idx += 1) {
+       drawHexSide(ctx, initX+idx*(3*size), initY, size, "NW");
+       drawHexSide(ctx, initX+idx*(3*size), initY, size, "N");
+       drawHexSide(ctx, initX+idx*(3*size), initY, size, "NE");
+
+       drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NW");
+       drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "N");
+       drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NE");
+    }
+  }
+}

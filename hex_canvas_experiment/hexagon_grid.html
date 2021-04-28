@@ -27,46 +27,20 @@
              var theCanvas = document.getElementById('MyCanvas');
              if (theCanvas && theCanvas.getContext) {
                // change the width and height of the canvas
-               theCanvas.width = 600;
-               theCanvas.height = 400;
+               theCanvas.width = 800;
+               theCanvas.height = 600;
     
                // fill the canvas with a light blue background
                var ctx = theCanvas.getContext("2d");
                if (ctx) {
-                 ctx.fillStyle = "lightBlue";
+                 ctx.fillStyle = "black";
                  ctx.strokeStyle = "blue";
                  ctx.lineWidth = 5;
                  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                  ctx.strokeRect(0, 0, ctx.canvas.width, ctx.canvas.height);
                }
              }
-             ctx.lineWidth = 1;
-             //drawHexSide(ctx, 100, 100, 50, "N");
-             //drawHexSide(ctx, 100, 100, 50, "S");
-             //drawHexSide(ctx, 100, 100, 50, "NW");
-             //drawHexSide(ctx, 100, 100, 50, "SW");
-             //drawHexSide(ctx, 100, 100, 50, "NE");
-             //drawHexSide(ctx, 100, 100, 50, "SE");
-
-             ctx.strokeStyle = "green";
-             var size = 25 
-             for (var idy = 0; idy < 4; idy += 1) {
-               initX = 100;
-               initY = 100 + idy*Math.sqrt(3)*size;
-               initY2 = initY + Math.sqrt(3)/2*size;
-               initX2 = initX + 1.5*size;
-               for (var idx = 0; idx < 10; idx += 1) {
-                  ctx.strokeStyle = "green";
-                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "NW");
-                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "N");
-                  drawHexSide(ctx, initX+idx*(3*size), initY, size, "NE");
-
-                  ctx.strokeStyle = "green";
-                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NW");
-                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "N");
-                  drawHexSide(ctx, initX2+idx*(3*size), initY2, size, "NE");
-               }
-             }              
+             hex_grid(ctx, 0, 0, 45, 2, ctx.canvas.width, ctx.canvas.height);
            });
                
         </script>
